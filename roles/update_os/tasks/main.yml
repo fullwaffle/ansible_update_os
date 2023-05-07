@@ -1,0 +1,10 @@
+---
+# tasks file for update_os
+
+- name: Update OS using yum but firefox
+  yum: name='*' state=latest update_cache=true update_only=true exclude=firefox*
+  register: yum_update_status
+  
+- name: Reboot OS if system was updated 
+  reboot:
+  when: yum_update_status.changed
